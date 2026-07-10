@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Department - SIT Nagpur</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        nav {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 2px solid #667eea;
+            text-align: center;
+        }
+        
+        nav a {
+            display: inline-block;
+            margin: 0 15px;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        
+        nav a:hover {
+            background: #764ba2;
+            transform: scale(1.05);
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .section p {
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .departments {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .dept-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            transition: 0.3s;
+        }
+        
+        .dept-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .dept-card h3 {
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Symbiosis Institute of Technology</h1>
+            <p>College Department Portal</p>
+        </header>
+        
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="student-info.html">Student Information</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        
+        <div class="content">
+            <section class="section">
+                <h2>Welcome to SIT Nagpur</h2>
+                <p>Symbiosis Institute of Technology (SIT) Nagpur is a premier institution dedicated to fostering academic excellence and innovation in the field of technology and education.</p>
+                <p>Our college department offers comprehensive programs designed to equip students with the knowledge and skills necessary for success in the modern world.</p>
+            </section>
+            
+            <section class="section">
+                <h2 id="about">About Our Departments</h2>
+                <div class="departments">
+                    <div class="dept-card">
+                        <h3>Computer Science</h3>
+                        <p>Advanced programs in software development, artificial intelligence, and cybersecurity.</p>
+                    </div>
+                    <div class="dept-card">
+                        <h3>Electronics & Telecommunication</h3>
+                        <p>Cutting-edge research and development in telecommunications and electronics.</p>
+                    </div>
+                    <div class="dept-card">
+                        <h3>Mechanical Engineering</h3>
+                        <p>Comprehensive training in modern mechanical engineering principles and practices.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="section">
+                <h2 id="contact">Quick Links</h2>
+                <p><strong>For Student Information:</strong> <a href="student-info.html" style="color: #667eea; text-decoration: underline;">Click here to view Student Information</a></p>
+            </section>
+        </div>
+        
+        <footer>
+            <p>&copy; 2024 Symbiosis Institute of Technology, Nagpur. All rights reserved.</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Display welcome alert
+        window.addEventListener('load', function() {
+            alert('Welcome to SIT Nagpur');
+        });
+    </script>
+</body>
+</html>
+      
