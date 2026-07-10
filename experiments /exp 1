@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JavaScript Demo</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const internalText = document.getElementById("internal-demo");
+      if (internalText) {
+        internalText.textContent = "Internal JavaScript loaded successfully.";
+      }
+      console.log("Internal JavaScript executed.");
+    });
+  </script>
+</head>
+<body>
+  <main class="container">
+    <h1>Welcome <span class="name">DISHA DEVGIRKAR</span></h1>
+    <p class="welcome-message">Hello! Your information is shown below with different colors.</p>
+
+    <section class="card">
+      <h2>User Information</h2>
+      <p><strong>Name:</strong> <span class="highlight blue">DISHA DEVGIRKAR</span></p>
+      <p><strong>PRN:</strong> <span class="highlight purple">24070521153</span></p>
+    </section>
+
+    <section class="card">
+      <h2>JavaScript Demonstrations</h2>
+      <p id="inline-demo">Inline JavaScript has not run yet.</p>
+      <button onclick="document.getElementById('inline-demo').textContent='Inline JavaScript executed!'; console.log('Inline JavaScript executed.');">
+        Run inline JavaScript
+      </button>
+      <p id="internal-demo">Internal JavaScript is loading...</p>
+      <p id="external-demo">External JavaScript is loading...</p>
+    </section>
+
+    <section class="card">
+      <h2>Console Methods</h2>
+      <p>Open the browser console to see JavaScript output.</p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
