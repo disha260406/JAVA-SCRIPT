@@ -1,0 +1,22 @@
+< ! doctype html
+< html
+< head >
+<meta
+<meta
+<tit1e>Password & PRN Checker</title>
+<link
+< / heady
+< body >
+<div
+<h1>Password & PRN Checker< /hl>
+<forn >
+< label type" text" dev
+< label>PRN: <input
+< label>Password: (input placehold)
+<button type="submit">Check</button>
+< /form»
+<div
+</div»
+<script
+< / body >
+</html>
