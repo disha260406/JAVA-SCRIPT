@@ -1,0 +1,198 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Product Discount Calculator (INR) - Multiple Products</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+  }
+  label, select, input, button {
+    font-size: 1em;
+  }
+  select, input {
+    padding: 8px;
+    margin-right: 10px;
+    width: 150px;
+  }
+  button {
+    padding: 8px 16px;
+    cursor: pointer;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+  }
+  button.remove {
+    background-color: #f44336;
+    padding: 4px 10px;
+  }
+  .results {
+    margin-top: 20px;
+  }
+  table {
+    border-collapse: collapse;
+    margin-top: 10px;
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+  .summary {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  .error {
+    color: red;
+  }
+</style>
+</head>
+<body>
+<h1>Product Discount Calculator (INR) - Shopping Cart</h1>
+
+<div>
+  <label for="product">Select Product: </label>
+  <select id="product" onchange="updatePrice()">
+    <option value="">--Select a product--</option>
+    <option value="Pen" data-price="10">Pen - ₹10</option>
+    <option value="Notebook" data-price="50">Notebook - ₹50</option>
+    <option value="Pencil" data-price="5">Pencil - ₹5</option>
+    <option value="Eraser" data-price="8">Eraser - ₹8</option>
+    <option value="Book" data-price="200">Book - ₹200</option>
+  </select>
+
+  <label for="quantity">Quantity: </label>
+  <input type="number" id="quantity" min="1" value="1" oninput="updatePrice()" />
+
+  <button type="button" onclick="addToCart()">Add to Cart</button>
+</div>
+
+<div class="results" id="results">
+  <h3>Cart Items</h3>
+  <div id="cartMessage" class="error"></div>
+  <table id="cartTable">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Product</th>
+        <th>Unit Price (₹)</th>
+        <th>Quantity</th>
+        <th>Line Total (₹)</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="cartBody"></tbody>
+  </table>
+  <div class="summary" id="summary"></div>
+</div>
+
+<script>
+let cart = []; // array of { product, unitPrice, quantity }
+let unitPrice = 0;
+
+function updatePrice() {
+  const productSelect = document.getElementById('product');
+  const selectedOption = productSelect.options[productSelect.selectedIndex];
+  unitPrice = parseFloat(selectedOption.getAttribute('data-price')) || 0;
+  document.getElementById('cartMessage').textContent = '';
+}
+
+function addToCart() {
+  const productSelect = document.getElementById('product');
+  const product = productSelect.value;
+  const quantityInput = document.getElementById('quantity');
+
+  if (!product) {
+    document.getElementById('cartMessage').textContent = 'Please select a product.';
+    return;
+  }
+
+  const quantity = parseInt(quantityInput.value);
+  if (isNaN(quantity) || quantity <= 0) {
+    document.getElementById('cartMessage').textContent = 'Please enter a valid quantity (>=1).';
+    return;
+  }
+
+  // Add the line item to the cart
+  cart.push({
+    product: product,
+    unitPrice: unitPrice,
+    quantity: quantity
+  });
+
+  document.getElementById('cartMessage').textContent = '';
+  renderCart();
+}
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  renderCart();
+}
+
+function renderCart() {
+  const cartBody = document.getElementById('cartBody');
+  cartBody.innerHTML = '';
+
+  cart.forEach((item, index) => {
+    const lineTotal = item.unitPrice * item.quantity;
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${item.product}</td>
+      <td>₹${item.unitPrice.toFixed(2)}</td>
+      <td>${item.quantity}</td>
+      <td>₹${lineTotal.toFixed(2)}</td>
+      <td><button class="remove" type="button" onclick="removeFromCart(${index})">Remove</button></td>
+    `;
+    cartBody.appendChild(row);
+  });
+
+  calculateTotal();
+}
+
+function calculateTotal() {
+  const summaryDiv = document.getElementById('summary');
+
+  if (cart.length === 0) {
+    summaryDiv.innerHTML = '<p>Your cart is empty. Please add at least one product.</p>';
+    return;
+  }
+
+  // Sum the total amount across all products in the cart
+  const totalAmount = cart.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
+
+  // Determine discount percentage based on the total bill amount
+  let discountPercentage;
+  if (totalAmount >= 5000) {
+    discountPercentage = 50;
+  } else if (totalAmount >= 3000) {
+    discountPercentage = 30;
+  } else if (totalAmount >= 2000) {
+    discountPercentage = 20;
+  } else if (totalAmount >= 1000) {
+    discountPercentage = 10;
+  } else {
+    discountPercentage = 0;
+  }
+
+  const discountAmount = (totalAmount * discountPercentage) / 100;
+  const finalAmount = totalAmount - discountAmount;
+
+  summaryDiv.innerHTML = `
+    <p><strong>Total Bill (before discount): ₹${totalAmount.toFixed(2)}</strong></p>
+    <p>Discount (${discountPercentage}%): ₹${discountAmount.toFixed(2)}</p>
+    <p><strong>Final Amount after discount: ₹${finalAmount.toFixed(2)}</strong></p>
+  `;
+}
+</script>
+</body>
+</html>
