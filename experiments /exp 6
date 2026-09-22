@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Analysis & Email Validation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Text Analysis & Email Validation</h1>
+
+    <div class="form-group">
+        <label for="main-text">Enter your text:</label><br>
+        <textarea id="main-text" rows="5">disha@gmail.com,9782325485</textarea>
+    </div>
+
+    <div class="validation-section">
+        <label for="email-to-validate">Enter email to validate:</label><br>
+        <input type="text" id="email-to-validate" value="disha@gmail.com">
+        <button id="analyze-btn">Analyze</button>
+    </div>
+
+    <div id="validation-result-container" class="output-text">
+        Validation result for "disha@gmail.com": Valid
+    </div>
+
+    <div class="results-section">
+        <p class="output-text">Text Analysis Results:</p>
+        <p class="output-text">---------------------</p>
+        <pre id="analysis-output" class="output-text"></pre>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+css:
+/* Bare-minimum native styling to mirror the default browser look in the screenshot */
+body {
+    font-family: "Times New Roman", Times, serif;
+    padding: 20px;
+    background-color: #ffffff;
+    color: #000000;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+textarea {
+    width: 500px;
+    font-family: Arial, sans-serif;
+    padding: 2px;
+    border: 1px solid #767676;
+}
+
+.validation-section {
+    margin-bottom: 5px;
+}
+
+input[type="text"] {
+    width: 200px;
+    font-family: Arial, sans-serif;
+    padding: 2px;
+    border: 1px solid #767676;
+}
+
+button {
+    font-family: Arial, sans-serif;
+    padding: 2px 6px;
+    background-color: #f0f0f0;
+    border: 1px solid #767676;
+    cursor: pointer;
+}
+
+button:active {
+    background-color: #e0e0e0;
+}
+
+.output-text {
+    font-family: monospace;
+    font-size: 13px;
+    margin: 4px 0;
+    white-space: pre-wrap;
+}
+
+.results-section {
+    margin-top: 30px;
+}
+
+pre {
+    margin: 0;
+}
+
+
+
+
+
+
+js:
+document.getElementById('analyze-btn').addEventListener('click', runAnalysis);
+
+function runAnalysis() {
+    const mainText = document.getElementById('main-text').value;
+    const emailToValidate = document.getElementById('email-to-validate').value;
+   
+    // 1. Handle Email Validation Output
+    const validationContainer = document.getElementById('validation-result-container');
+    const isValidEmail = validateEmailFormat(emailToValidate);
+    validationContainer.textContent = `Validation result for "${emailToValidate}": ${isValidEmail ? 'Valid' : 'Invalid'}`;
+   
+    // 2. Extracted Emails (matching snapshot behavior where commas/strings without spaces are evaluated)
+    // Note: The snapshot outputs "None" even with "disha@gmail.com,9782325485" because standard word-splitting on spaces leaves the comma attached.
+    const emailsFound = extractEmailsWithSpaces(mainText);
+    const emailsDisplay = emailsFound.length > 0 ? emailsFound.join(', ') : 'None';
+
+    // 3. Text Transformations
+    const uppercaseText = mainText.toUpperCase();
+    const lowercaseText = mainText.toLowerCase();
+   
+    // 4. Content Checks
+    const containsWelcome = mainText.includes('Welcome');
+    const textLength = mainText.length;
+   
+    // 5. Word Counting (splits strictly by spaces to match "Number of Words: 1" from the image)
+    const wordCount = mainText.trim() === "" ? 0 : mainText.trim().split(/\s+/).length;
+   
+    // 6. Target Substring Occurrences
+    const occurrencesOfEmail = countSubstringOccurrences(mainText, 'email');
+
+    // Compile text blocks exactly as shown in the screenshot layout
+    const resultsTemplate =
+`Extracted Emails: ${emailsDisplay}
+Text in Uppercase: ${uppercaseText}
+Text in Lowercase: ${lowercaseText}
+Contains "Welcome": ${containsWelcome}
+Text Length: ${textLength}
+Number of Words: ${wordCount}
+Occurrences of "email": ${occurrencesOfEmail}`;
+
+    document.getElementById('analysis-output').textContent = resultsTemplate;
+}
+
+// Regex matching standard space-delimited text evaluation seen in basic utility apps
+function extractEmailsWithSpaces(text) {
+    const words = text.split(/\s+/);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return words.filter(word => emailRegex.test(word));
+}
+
+// Basic structural evaluation helper
+function validateEmailFormat(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Substring frequency counter
+function countSubstringOccurrences(sourceText, searchStr) {
+    if (!searchStr) return 0;
+    let count = 0;
+    let position = sourceText.indexOf(searchStr);
+    while (position !== -1) {
+        count++;
+        position = sourceText.indexOf(searchStr, position + 1);
+    }
+    return count;
+}
